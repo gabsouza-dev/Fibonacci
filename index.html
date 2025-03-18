@@ -15,24 +15,38 @@
             background-color: #f4f4f4;
             overflow: hidden;
         }
-      
+        
         .spiral-container {
             position: relative;
             width: 100vw;
             height: 100vh;
         }
-      
+        
         .curve {
             position: absolute;
             border: 2px solid #3498db;
             border-radius: 50%;
             transition: all 1s ease-in-out;
         }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body>
     <h1>Fibonacci Caracol</h1>
     <div class="spiral-container" id="container"></div>
+    <div id="toast" class="toast"></div>
     <script>
         function fibonacci(n) {
             if (n <= 1) return n;
@@ -43,6 +57,15 @@
         let x = window.innerWidth / 2;
         let y = window.innerHeight / 2;
         let angle = 0;
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        }
 
         function addFibonacciCurve() {
             let value = fibonacci(i);
@@ -60,6 +83,8 @@
             setTimeout(() => {
                 div.style.opacity = '1';
             }, 100);
+            
+            showToast(`Fibonacci: ${value}`);
             
             x += Math.cos(angle * Math.PI / 180) * value;
             y += Math.sin(angle * Math.PI / 180) * value;
